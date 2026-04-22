@@ -84,6 +84,7 @@ async function fetchPokemon() {
                 <p class="flex justify-between"><span class="text-slate-500">Sp. Atk:</span> <span class="font-bold">${specialAttack}</span></p>
                 <p class="flex justify-between"><span class="text-slate-500">Sp. Def:</span> <span class="font-bold">${specialDefense}</span></p>
               </div>
+              <button id="catchBtn-${id}" class="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition-colors font-medium">Catch'em!</button>
             </div>
           </article>`;
     };

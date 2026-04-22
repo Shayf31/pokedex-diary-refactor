@@ -57,12 +57,7 @@ async function fetchPokemon() {
     const specialDefense = currentPokemon.stats[4].base_stat;
     const speed = currentPokemon.stats[5].base_stat;
 
-    // only render the second type badge if a second type exists
-    const type2HTML = type2
-      ? `<span class="${type2Color} text-white text-sm font-bold px-4 py-2 rounded-full">${type2}</span>`
-      : "";
-
-    // populate pokemonObjects array with pokemon data i object format for later use
+    // populate pokemonObjects array with pokemon data as object for later use
     pokemonObjects.push({
       id: id,
       idString: idString,
@@ -80,6 +75,11 @@ async function fetchPokemon() {
         speed: speed,
       },
     });
+
+    // only render the second type badge if a second type exists
+    const type2HTML = type2
+      ? `<span class="${type2Color} text-white text-sm font-bold px-4 py-2 rounded-full">${type2}</span>`
+      : "";
 
     // build the full html string first, then write to the DOM once at the end
     html += `
@@ -115,13 +115,20 @@ async function fetchPokemon() {
   // write the full html string to the DOM
   pokemonContainer.innerHTML = html;
 
+  // add eventlistener to each catch button
   for (const pokemonObject of pokemonObjects) {
     const btn = document.getElementById(`catchBtn-${pokemonObject.id}`);
     btn.addEventListener("click", () => {
+
+      // get existing caught pokemon from localStorage or an empty array if nothing is stored yet
       const caughtList = JSON.parse(
         localStorage.getItem("caughtPokemon") || "[]",
       );
-      const alreadyCaught = caughtList.some((p) => p.id === pokemonObject.id);
+
+      // check if the pokemon is already caught to prevent duplicates
+      const alreadyCaught = caughtList.some((pokemon) => pokemon.id === pokemonObject.id);
+
+      // add pokemon object to local storage
       if (!alreadyCaught) {
         caughtList.push(pokemonObject);
         localStorage.setItem("caughtPokemon", JSON.stringify(caughtList));

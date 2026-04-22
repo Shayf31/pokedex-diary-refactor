@@ -1,5 +1,6 @@
 const fetchPokemonPath = "https://pokeapi.co/api/v2/pokemon?limit=151";
 const pokemonContainer = document.getElementById("pokemonContainer");
+const pokemonObjects = [];
 const typeColors = {
   normal: "bg-gray-400",
   fire: "bg-orange-500",
@@ -47,7 +48,8 @@ async function fetchPokemon() {
       currentPokemon.name.slice(1);
 
     // pad the id with leading zeros so it always shows as 3 digits e.g. #001
-    const id = "#" + String(currentPokemon.id).padStart(3, "0");
+    const id = currentPokemon.id;
+    const idString = "#" + String(id).padStart(3, "0");
     const type1 = currentPokemon.types[0].type.name;
 
     // optional chaining (?.) avoids an error if a pokemon only has one type
@@ -61,6 +63,25 @@ async function fetchPokemon() {
     const specialAttack = currentPokemon.stats[3].base_stat;
     const specialDefense = currentPokemon.stats[4].base_stat;
     const speed = currentPokemon.stats[5].base_stat;
+
+    // populate pokemonObjects array with pokemon data as object for later use
+    pokemonObjects.push({
+      id: id,
+      idString: idString,
+      name: name,
+      sprite: sprite,
+      types: [type1, type2].filter(Boolean),
+      type1Color: type1Color,
+      type2Color: type2Color,
+      stats: {
+        hp: hp,
+        attack: attack,
+        defense: defense,
+        specialAttack: specialAttack,
+        specialDefense: specialDefense,
+        speed: speed,
+      },
+    });
 
     // only render the second type badge if a second type exists
     const type2HTML = type2
@@ -77,7 +98,7 @@ async function fetchPokemon() {
             <div class="p-6">
               <div class="flex items-center justify-between mb-4">
                 <h2 class="text-2xl font-extrabold">${name}</h2>
-                <span class="text-slate-400 text-2xl font-semibold">${id}</span>
+                <span class="text-slate-400 text-2xl font-semibold">${idString}</span>
               </div>
 
               <div class="flex gap-3 mb-5">
@@ -93,13 +114,35 @@ async function fetchPokemon() {
                 <p class="flex justify-between"><span class="text-slate-500">Sp. Atk:</span> <span class="font-bold">${specialAttack}</span></p>
                 <p class="flex justify-between"><span class="text-slate-500">Sp. Def:</span> <span class="font-bold">${specialDefense}</span></p>
               </div>
+              <button id="catchBtn-${id}" class="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition-colors font-medium">Catch'em!</button>
             </div>
           </article>`;
   }
 
   // write the full html string to the DOM
   pokemonContainer.innerHTML = html;
-}
+
+  // add eventlistener to each catch button
+  for (const pokemonObject of pokemonObjects) {
+    const btn = document.getElementById(`catchBtn-${pokemonObject.id}`);
+    btn.addEventListener("click", () => {
+
+      // get existing caught pokemon from localStorage or an empty array if nothing is stored yet
+      const caughtList = JSON.parse(
+        localStorage.getItem("caughtPokemon") || "[]",
+      );
+
+      // check if the pokemon is already caught to prevent duplicates
+      const alreadyCaught = caughtList.some((pokemon) => pokemon.id === pokemonObject.id);
+
+      // add pokemon object to local storage
+      if (!alreadyCaught) {
+        caughtList.push(pokemonObject);
+        localStorage.setItem("caughtPokemon", JSON.stringify(caughtList));
+      }
+    });
+  }
+};
 
 // search function + Repeated data extraction block - don't mess with Jeronimos code
 // grab the search and dialog elements from HTML

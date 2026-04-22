@@ -22,6 +22,13 @@ const typeColors = {
   fairy: "bg-pink-300",
 };
 
+// variables for search
+const searchInput = document.getElementById("searchInput");
+const searchBtn = document.getElementById("searchBtn");
+const searchDialog = document.getElementById("searchDialog");
+const dialogContent = document.getElementById("dialogContent");
+const closeDialogBtn = document.getElementById("closeDialogBtn");
+
 async function fetchPokemon() {
   // fetch pokemon data from the api
   const response = await fetch(fetchPokemonPath);
@@ -135,6 +142,117 @@ async function fetchPokemon() {
       }
     });
   }
+};
+
+// search function + Repeated data extraction block - don't mess with Jeronimos code
+// grab the search and dialog elements from HTML
+// create a new searchPokemon() function
+// get the user’s input
+// fetch one Pokemon by name or ID
+// put that result inside the modal
+// handle empty input
+// handle not-found searches
+// wire up the button, Enter key, and close button
+
+async function searchPokemon() {
+  const searchValue = searchInput.value.trim().toLowerCase();
+
+  if (!searchValue) {
+    dialogContent.innerHTML = `
+          <div class="p-4 text-center">
+            <p class="text-xl text-red-500 font-bold">Please enter a Pokémon name or ID.</p>
+          </div>
+        `;
+    searchDialog.showModal();
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      `https://pokeapi.co/api/v2/pokemon/${searchValue}`,
+    );
+
+    if (!response.ok) {
+      throw new Error("Pokemon not found");
+    }
+
+    const currentPokemon = await response.json();
+
+    const name =
+      currentPokemon.name.charAt(0).toUpperCase() +
+      currentPokemon.name.slice(1);
+    const id = "#" + String(currentPokemon.id).padStart(3, "0");
+    const type1 = currentPokemon.types[0].type.name;
+    const type2 = currentPokemon.types[1]?.type.name;
+    const type1Color = typeColors[type1];
+    const type2Color = typeColors[type2];
+    const sprite = currentPokemon.sprites.front_default;
+    const hp = currentPokemon.stats[0].base_stat;
+    const attack = currentPokemon.stats[1].base_stat;
+    const defense = currentPokemon.stats[2].base_stat;
+    const specialAttack = currentPokemon.stats[3].base_stat;
+    const specialDefense = currentPokemon.stats[4].base_stat;
+    const speed = currentPokemon.stats[5].base_stat;
+
+    const type2HTML = type2
+      ? `<span class="${type2Color} text-white text-sm font-bold px-4 py-2 rounded-full">${type2}</span>`
+      : "";
+
+    dialogContent.innerHTML = `
+          <article class="bg-white rounded-3xl shadow-lg overflow-hidden">
+            <div class="bg-slate-100 h-60 flex items-center justify-center">
+              <img src="${sprite}" alt="${name}" class="w-36 h-36 object-contain mx-auto" />
+            </div>
+
+            <div class="p-6">
+              <div class="flex items-center justify-between mb-4">
+                <h2 class="text-2xl font-extrabold">${name}</h2>
+                <span class="text-slate-400 text-2xl font-semibold">${id}</span>
+              </div>
+
+              <div class="flex gap-3 mb-5">
+                <span class="${type1Color} text-white text-sm font-bold px-4 py-2 rounded-full">${type1}</span>
+                ${type2HTML}
+              </div>
+
+              <div class="grid grid-cols-2 gap-y-3 gap-x-5 text-xl mb-6">
+                <p class="flex justify-between"><span class="text-slate-500">Hp:</span> <span class="font-bold">${hp}</span></p>
+                <p class="flex justify-between"><span class="text-slate-500">Speed:</span> <span class="font-bold">${speed}</span></p>
+                <p class="flex justify-between"><span class="text-slate-500">Attack:</span> <span class="font-bold">${attack}</span></p>
+                <p class="flex justify-between"><span class="text-slate-500">Defense:</span> <span class="font-bold">${defense}</span></p>
+                <p class="flex justify-between"><span class="text-slate-500">Sp. Atk:</span> <span class="font-bold">${specialAttack}</span></p>
+                <p class="flex justify-between"><span class="text-slate-500">Sp. Def:</span> <span class="font-bold">${specialDefense}</span></p>
+              </div>
+            </div>
+          </article>
+        `;
+
+    searchDialog.showModal();
+  } catch (error) {
+    dialogContent.innerHTML = `
+          <div class="p-6 text-center">
+            <h3 class="text-2xl font-extrabold text-red-500 mb-3">No Pokémon Found</h3>
+            <p class="text-lg text-slate-600">
+              We could not find a Pokémon with name or ID:
+              <span class="font-bold">${searchValue}</span>
+            </p>
+          </div>
+        `;
+    searchDialog.showModal();
+  }
 }
+
+// EVENT LISTENERS FOR SEARCH
+searchBtn.addEventListener("click", searchPokemon);
+
+searchInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    searchPokemon();
+  }
+});
+
+closeDialogBtn.addEventListener("click", () => {
+  searchDialog.close();
+});
 
 fetchPokemon();

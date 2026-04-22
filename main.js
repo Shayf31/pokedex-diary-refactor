@@ -1,9 +1,4 @@
-const searchBtn = document.getElementById("searchBtn");
-const searchInput = document.getElementById("searchInput");
-const searchDialog = document.getElementById("searchDialog");
-const closeDialogBtn = document.getElementById("closeDialogBtn");
-const dialogContent = document.getElementById("dialogContent");
-const allKantoPokemonPath = "https://pokeapi.co/api/v2/pokemon?limit=151";
+const fetchPokemonPath = "https://pokeapi.co/api/v2/pokemon?limit=151";
 const pokemonContainer = document.getElementById("pokemonContainer");
 const typeColors = {
     normal: "bg-gray-400",
@@ -26,31 +21,30 @@ const typeColors = {
     fairy: "bg-pink-300",
 };
 
-async function getAllKantoPokemon() {
-    const response = await fetch(allKantoPokemonPath);
-    const allKantoPokemonData = await response.json();
-    const allKantoPokemon = allKantoPokemonData.results;
+async function fetchPokemon() {
+    const response = await fetch(fetchPokemonPath);
+    const data = await response.json();
+    const pokemonData = data.results;
 
     let html = "";
 
-    for (const pokemon of allKantoPokemon) {
-        const pokemonInfoResponse = await fetch(pokemon.url);
-        const pokemonInfo = await pokemonInfoResponse.json();
+    for (const pokemon of pokemonData) {
+        const response = await fetch(pokemon.url);
+        const currentPokemon = await response.json();
 
-        const name = pokemonInfo.name.charAt(0).toUpperCase() + pokemonInfo.name.slice(1);
-        const id = '#' + String(pokemonInfo.id).padStart(3, "0");
-        const type1 = pokemonInfo.types[0].type.name;
-        const type2 = pokemonInfo.types[1]?.type.name;
+        const name = currentPokemon.name.charAt(0).toUpperCase() + currentPokemon.name.slice(1);
+        const id = '#' + String(currentPokemon.id).padStart(3, "0");
+        const type1 = currentPokemon.types[0].type.name;
+        const type2 = currentPokemon.types[1]?.type.name;
         const type1Color = typeColors[type1];
         const type2Color = typeColors[type2];
-        const sprite = pokemonInfo.sprites.front_default;
-        const hp = pokemonInfo.stats[0].base_stat;
-        const attack = pokemonInfo.stats[1].base_stat;
-        const defense = pokemonInfo.stats[2].base_stat;
-        const specialAttack = pokemonInfo.stats[3].base_stat;
-        const specialDefense = pokemonInfo.stats[4].base_stat;
-        const speed = pokemonInfo.stats[5].base_stat;
-        
+        const sprite = currentPokemon.sprites.front_default;
+        const hp = currentPokemon.stats[0].base_stat;
+        const attack = currentPokemon.stats[1].base_stat;
+        const defense = currentPokemon.stats[2].base_stat;
+        const specialAttack = currentPokemon.stats[3].base_stat;
+        const specialDefense = currentPokemon.stats[4].base_stat;
+        const speed = currentPokemon.stats[5].base_stat;
         const type2HTML = type2
             ? `<span class="${type2Color} text-white text-sm font-bold px-4 py-2 rounded-full">${type2}</span>`
             : "";
@@ -86,21 +80,4 @@ async function getAllKantoPokemon() {
     pokemonContainer.innerHTML = html;
 };
 
-getAllKantoPokemon();
-
-searchBtn.addEventListener("click", () => {
-    const value = searchInput.value.trim();
-
-    if (!value) {
-        dialogContent.textContent = "Please enter a Pokemon name or ID.";
-        searchDialog.showModal();
-        return;
-    }
-
-    dialogContent.textContent = `You searched for: ${value}`;
-    searchDialog.showModal();
-});
-
-closeDialogBtn.addEventListener("click", () => {
-    searchDialog.close();
-});
+fetchPokemon();

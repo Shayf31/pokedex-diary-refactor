@@ -1,37 +1,14 @@
-# Project TODOs
+# Pokédex Project
 
-## Setup
-- Set up Trello to manage project todos – Shay  
-- Set up folder structure and skeleton HTML to start – Shay  
+Functional requirements for the Pokédex exercise.
 
-## Planning & Design
-- Build wireframe design of website – Jeronimo leading, Shay helping  
-- Agree on stored Pokémon object shape + agree on what stats to show – Shay & Jeronimo  
-
-## UI Development
-- Create and style navbar for both pages – Shay & Jeronimo  
-- Build Pokémon card layout and style with Tailwind – Shay & Jeronimo  
-
-## Data & API
-- Fetch Pokémon list from PokéAPI – tbc  
-- Transform API response into usable Pokémon objects – tbc  
-- Render fetched Pokémon data into cards – tbc  
-- Handle loading and error states – tbc  
-
-## Features
-- Implement search by name or ID – tbc  
-- Show search result/feedback in dialog – tbc  
-- Implement Catch button storage logic – tbc  
-- Prevent duplicates in localStorage – tbc  
-
-## Pokédex Page
-- Read favourite Pokémon from localStorage – tbc  
-- Display favourite Pokémon on Pokédex page – tbc  
-- Add notes input/textarea for each saved Pokémon – tbc  
-- Save edited notes back to localStorage – tbc  
-- Add empty-state message for Pokédex page – tbc  
-
-## Integration & Polish
-- Revisit after API fetch – style cards, notes, and layout – tbc  
-- Coordinate data flow between homepage and Pokédex page – tbc  
-- Final integration testing – tbc  
+| ID | Requirement | Description | Assigned To |
+|---|---|---|---|
+| FR007 | File Structure | `index.html` ↔ `main.js` , `pokedex.html` ↔ `pokedex.js` | Shay |
+| FR008 | Navigation Bar | Provide a navbar on **both** pages to switch between *Homepage* and *Pokédex*. | Shay |
+| FR009 | Fetch Pokémon List | On *Homepage*, fetch and display a list of Pokémon from the PokéAPI. | Shay & Jerónimo |
+| FR010 | Search with Dialog | Add a search bar; on submit (by name **or** numeric ID), show results/feedback in a dialog. | Shay |
+| FR011 | Pokémon Cards | Display each Pokémon's image, name, and stats in a card. | Shay & Jerónimo |
+| FR012 | Catch'em! | "Catch" button stores the Pokémon as an object in an array inside `localStorage`. | Jerónimo |
+| FR013 | Pokédex Page Display | *Pokédex* page lists favourite Pokémon from `localStorage`, showing image, name, stats. | |
+| FR014 | Personal Notes | Allow adding notes to each Pokémon; persist the note on the same object in `localStorage`. | |

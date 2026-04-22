@@ -98,7 +98,7 @@ async function fetchPokemon() {
             <div class="p-6">
               <div class="flex items-center justify-between mb-4">
                 <h2 class="text-2xl font-extrabold">${name}</h2>
-                <span class="text-slate-400 text-2xl font-semibold">${id}</span>
+                <span class="text-slate-400 text-2xl font-semibold">${idString}</span>
               </div>
 
               <div class="flex gap-3 mb-5">

@@ -27,6 +27,7 @@ function loadPokedex() {
       : "";
 
     // build the full html string first, then write to the DOM once at the end
+    //button for saving notes is at end of section - not sure how to add notes inside template string literals??
     html += `
       <article class="bg-white rounded-3xl shadow-lg overflow-hidden">
         <div class="bg-slate-100 h-60 flex items-center justify-center">
@@ -52,11 +53,69 @@ function loadPokedex() {
             <p class="flex justify-between"><span class="text-slate-500">Sp. Atk:</span> <span class="font-bold">${pokemon.stats.specialAttack}</span></p>
             <p class="flex justify-between"><span class="text-slate-500">Sp. Def:</span> <span class="font-bold">${pokemon.stats.specialDefense}</span></p>
           </div>
+
+
+<div class="mb-5">
+  <label for="note-${pokemon.id}" class="block text-lg font-semibold mb-2">
+    Personal Note:
+  </label>
+
+  <!-- textarea for user note -->
+  <textarea
+    id="note-${pokemon.id}"
+    rows="4"
+    placeholder="Write a note about this Pokemon..."
+    class="w-full border border-slate-300 rounded-2xl p-4 text-lg outline-none focus:ring-2 focus:ring-red-400 resize-none"
+  >${pokemon.note || ""}</textarea>
+</div>
+
+
+<button
+  id="saveNoteBtn-${pokemon.id}"
+  class="w-full bg-blue-500 text-white py-2 rounded-lg mb-2"
+>
+  Save Note
+</button>
+
           <button id="releaseBtn-${pokemon.id}" class="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition-colors font-medium">Release ${pokemon.name}</button>
         </div>
       </article>`;
   });
   favoritesContainer.innerHTML = html;
+
+
+//Loop through every saved Pokémon
+favoritePokemon.forEach((pokemon) => {
+  // get the save button for this pokemon
+  const saveBtn = document.getElementById(`saveNoteBtn-${pokemon.id}`);
+
+  // When user clicks “Save Note” → run this code
+  saveBtn.addEventListener("click", () => {
+    // get textarea value
+    const noteInput = document.getElementById(`note-${pokemon.id}`);
+    const noteValue = noteInput.value;
+
+    // get current list from localStorage
+    const caughtList = JSON.parse(
+      localStorage.getItem("caughtPokemon") || "[]"
+    );
+
+    // find matching pokemon and update note
+    caughtList.forEach((caughtPokemon) => {
+      if (caughtPokemon.id === pokemon.id) {
+        caughtPokemon.note = noteValue;
+      }
+    });
+
+    // save updated list back to localStorage
+    localStorage.setItem("caughtPokemon", JSON.stringify(caughtList));
+
+    //alert to notify - maybe remove later if it looks messy
+    alert("Note saved for " + pokemon.name + "!");
+  });
+});
+
+
 
   favoritePokemon.forEach((pokemon) => {
     const btn = document.getElementById(`releaseBtn-${pokemon.id}`);

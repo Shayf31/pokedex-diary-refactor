@@ -16,6 +16,7 @@ function loadPokedex() {
         </p>
       </div>
     `;
+    return;
   }
 
   let html = "";
@@ -51,12 +52,27 @@ function loadPokedex() {
             <p class="flex justify-between"><span class="text-slate-500">Sp. Atk:</span> <span class="font-bold">${pokemon.stats.specialAttack}</span></p>
             <p class="flex justify-between"><span class="text-slate-500">Sp. Def:</span> <span class="font-bold">${pokemon.stats.specialDefense}</span></p>
           </div>
-          <button id="catchBtn-${pokemon.id}" class="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition-colors font-medium">Catch'em!</button>
+          <button id="releaseBtn-${pokemon.id}" class="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition-colors font-medium">Release ${pokemon.name}</button>
         </div>
       </article>`;
   });
-
   favoritesContainer.innerHTML = html;
-}
+
+  favoritePokemon.forEach((pokemon) => {
+    const btn = document.getElementById(`releaseBtn-${pokemon.id}`);
+    btn.addEventListener("click", () => {
+
+      // get existing caught pokemon from localStorage or an empty array if nothing is stored yet
+      const caughtList = JSON.parse(
+        localStorage.getItem("caughtPokemon") || "[]",
+      );
+
+      const updatedCaughtList = caughtList.filter((caughtPokemon) => caughtPokemon.id !== pokemon.id);
+      localStorage.setItem("caughtPokemon", JSON.stringify(updatedCaughtList));
+      loadPokedex();
+      alert('You released ' + pokemon.name + '!')
+    });
+  });
+};
 
 loadPokedex();

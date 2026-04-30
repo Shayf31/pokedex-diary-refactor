@@ -2,75 +2,12 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pokedex Homepage</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>pokedex-vite</title>
   </head>
-  <body class="bg-[#f6efef] text-slate-900 min-h-screen">
-    <!-- Navbar -->
-    <header class="bg-[#ececec] border-b-4 border-red-500">
-      <nav class="max-w-7xl mx-auto px-6">
-        <div class="flex gap-10 h-24 items-center">
-          <a
-            href="index.html"
-            class="text-red-500 font-semibold text-2xl border-b-4 border-red-500 pb-8"
-          >
-            Homepage
-          </a>
-          <a
-            href="pokedex.html"
-            class="text-slate-500 font-semibold text-2xl pb-8 hover:text-red-500 transition"
-          >
-            Pokedex
-          </a>
-        </div>
-      </nav>
-    </header>
-
-    <!-- Main -->
-    <main class="max-w-7xl mx-auto px-6 py-14">
-      <h1 class="text-5xl font-extrabold mb-8">Pokemon Homepage</h1>
-
-      <!-- Search -->
-      <section class="flex flex-col md:flex-row gap-4 mb-12">
-        <input
-          id="searchInput"
-          type="text"
-          placeholder="Search by name or ID..."
-          class="flex-1 h-16 rounded-2xl border border-slate-300 px-6 text-2xl outline-none focus:ring-2 focus:ring-red-400 bg-transparent"
-        />
-        <button
-          id="searchBtn"
-          class="bg-red-500 hover:bg-red-600 text-white font-bold text-2xl px-10 h-16 rounded-2xl transition"
-        >
-          Search
-        </button>
-      </section>
-
-      <!-- Pokemon cards -->
-      <section
-        id="pokemonContainer"
-        class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8"
-      ></section>
-    </main>
-
-    <!-- Dialog -->
-    <dialog id="searchDialog" class="rounded-3xl p-0 max-w-xl">
-      <div class="p-8">
-        <div class="flex items-center justify-between mb-6">
-          <h2 class="text-3xl font-extrabold">Search Result</h2>
-          <button
-            id="closeDialogBtn"
-            class="text-slate-500 hover:text-red-500 text-3xl font-bold"
-          >
-            ×
-          </button>
-        </div>
-
-        <div id="dialogContent"></div>
-      </div>
-    </dialog>
-
-    <script src="main.js"></script>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

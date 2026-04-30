@@ -1,14 +1,16 @@
-# Pokédex Project
+# React + Vite
 
-Functional requirements for the Pokédex exercise.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-| ID | Requirement | Description | Assigned To |
-|---|---|---|---|
-| FR007 | File Structure | `index.html` ↔ `main.js` , `pokedex.html` ↔ `pokedex.js` | Shay |
-| FR008 | Navigation Bar | Provide a navbar on **both** pages to switch between *Homepage* and *Pokédex*. | Shay |
-| FR009 | Fetch Pokémon List | On *Homepage*, fetch and display a list of Pokémon from the PokéAPI. | Shay & Jerónimo |
-| FR010 | Search with Dialog | Add a search bar; on submit (by name **or** numeric ID), show results/feedback in a dialog. | Shay |
-| FR011 | Pokémon Cards | Display each Pokémon's image, name, and stats in a card. | Shay & Jerónimo |
-| FR012 | Catch'em! | "Catch" button stores the Pokémon as an object in an array inside `localStorage`. | Jerónimo |
-| FR013 | Pokédex Page Display | *Pokédex* page lists favourite Pokémon from `localStorage`, showing image, name, stats. | Jerónimo |
-| FR014 | Personal Notes | Allow adding notes to each Pokémon; persist the note on the same object in `localStorage`. | Shay |
+Currently, two official plugins are available:
+
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+
+## React Compiler
+
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.

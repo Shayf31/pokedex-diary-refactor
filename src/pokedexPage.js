@@ -1,25 +1,103 @@
-// Import Tailwind/CSS styles for this page
 import "./index.css";
-
-// Import localStorage helper functions for managing caught Pokémon
 import {
   getCaughtPokemon,
   releasePokemon,
   savePokemonNote,
 } from "./modules/storage.js";
 
-// Import reusable card generator for displaying Pokémon
-import { createPokemonCard } from "./modules/pokemonCard.js";
-
-// Container where saved Pokémon will be displayed
+// MAIN CONTAINER for all saved Pokémon cards
 const favoritesContainer = document.getElementById("favoritesContainer");
 
-// Loads and renders the user's saved (caught) Pokémon
+/**
+ * Creates a full Pokémon card INCLUDING notes + actions
+ * Used only on the Pokédex page (saved Pokémon view)
+ */
+function createSavedPokemonCard(pokemon) {
+  // Only render second type if it exists
+  const type2HTML = pokemon.types[1]
+    ? `<span class="${pokemon.type2Color} text-white text-sm font-bold px-4 py-2 rounded-full">${pokemon.types[1]}</span>`
+    : "";
+
+  // Return full card HTML including:
+  // - Pokémon info
+  // - Personal note textarea
+  // - Save + Release buttons
+  return `
+    <article class="bg-white rounded-3xl shadow-lg overflow-hidden">
+      
+      <!-- Pokémon Image -->
+      <div class="bg-slate-100 h-60 flex items-center justify-center">
+        <img src="${pokemon.sprite}" alt="${pokemon.name}" class="w-36 h-36 object-contain" />
+      </div>
+
+      <div class="p-6">
+
+        <!-- Name + ID -->
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-2xl font-extrabold">${pokemon.name}</h2>
+          <span class="text-slate-400 text-2xl font-semibold">${pokemon.idString}</span>
+        </div>
+
+        <!-- Types -->
+        <div class="flex gap-3 mb-5">
+          <span class="${pokemon.type1Color} text-white text-sm font-bold px-4 py-2 rounded-full">${pokemon.types[0]}</span>
+          ${type2HTML}
+        </div>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-2 gap-y-3 gap-x-5 text-xl mb-6">
+          <p class="flex justify-between"><span class="text-slate-500">Hp:</span> <span class="font-bold">${pokemon.stats.hp}</span></p>
+          <p class="flex justify-between"><span class="text-slate-500">Speed:</span> <span class="font-bold">${pokemon.stats.speed}</span></p>
+          <p class="flex justify-between"><span class="text-slate-500">Attack:</span> <span class="font-bold">${pokemon.stats.attack}</span></p>
+          <p class="flex justify-between"><span class="text-slate-500">Defense:</span> <span class="font-bold">${pokemon.stats.defense}</span></p>
+          <p class="flex justify-between"><span class="text-slate-500">Sp. Atk:</span> <span class="font-bold">${pokemon.stats.specialAttack}</span></p>
+          <p class="flex justify-between"><span class="text-slate-500">Sp. Def:</span> <span class="font-bold">${pokemon.stats.specialDefense}</span></p>
+        </div>
+
+        <!-- Personal Notes Section -->
+        <div class="mb-5">
+          <label for="note-${pokemon.id}" class="block text-lg font-semibold mb-2">
+            Personal Note:
+          </label>
+
+          <!-- Pre-fill textarea if note already exists -->
+          <textarea
+            id="note-${pokemon.id}"
+            rows="4"
+            placeholder="Write a note about this Pokémon..."
+            class="w-full border border-slate-300 rounded-2xl p-4 text-lg outline-none focus:ring-2 focus:ring-red-400 resize-none"
+          >${pokemon.note || ""}</textarea>
+        </div>
+
+        <!-- Save Note Button -->
+        <button
+          id="saveNoteBtn-${pokemon.id}"
+          class="w-full bg-blue-500 text-white py-2 rounded-lg mb-2"
+        >
+          Save Note
+        </button>
+
+        <!-- Release Pokémon Button -->
+        <button
+          id="releaseBtn-${pokemon.id}"
+          class="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition-colors font-medium"
+        >
+          Release ${pokemon.name}
+        </button>
+
+      </div>
+    </article>
+  `;
+}
+
+/**
+ * Loads all caught Pokémon from localStorage
+ * and renders them to the page
+ */
 function loadPokedex() {
-  // Retrieve Pokémon from localStorage
   const favoritePokemon = getCaughtPokemon();
 
-  // If no Pokémon are saved, display a message to the user
+  // Handle empty state (no Pokémon caught yet)
   if (favoritePokemon.length === 0) {
     favoritesContainer.innerHTML = `
       <div class="col-span-full bg-white rounded-3xl shadow-lg p-10 text-center">
@@ -34,68 +112,33 @@ function loadPokedex() {
 
   let html = "";
 
-  // Loop through each saved Pokémon and build the UI
+  // Build all Pokémon cards
   for (const pokemon of favoritePokemon) {
-    html += `
-      <!-- Reuse shared Pokémon card layout -->
-      ${createPokemonCard(pokemon, false)}
-
-      <!-- Additional section for notes and actions -->
-      <div class="bg-white rounded-3xl shadow-lg p-6 mt-4 mb-8">
-        <label for="note-${pokemon.id}" class="block text-lg font-semibold mb-2">
-          Personal Note:
-        </label>
-
-        <!-- Textarea allows user to store a personal note for each Pokémon -->
-        <textarea
-          id="note-${pokemon.id}"
-          rows="4"
-          placeholder="Write a note about this Pokémon..."
-          class="w-full border border-slate-300 rounded-2xl p-4 text-lg outline-none focus:ring-2 focus:ring-red-400 resize-none"
-        >${pokemon.note || ""}</textarea>
-
-        <!-- Button to save the note to localStorage -->
-        <button
-          id="saveNoteBtn-${pokemon.id}"
-          class="w-full bg-blue-500 text-white py-2 rounded-lg mt-4 mb-2"
-        >
-          Save Note
-        </button>
-
-        <!-- Button to remove the Pokémon from the Pokédex -->
-        <button
-          id="releaseBtn-${pokemon.id}"
-          class="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition-colors font-medium"
-        >
-          Release ${pokemon.name}
-        </button>
-      </div>
-    `;
+    html += createSavedPokemonCard(pokemon);
   }
 
-  // Render all Pokémon and their associated controls
   favoritesContainer.innerHTML = html;
 
-  // Attach event listeners for note saving and releasing Pokémon
+  // Attach event listeners AFTER rendering
   for (const pokemon of favoritePokemon) {
     const saveBtn = document.getElementById(`saveNoteBtn-${pokemon.id}`);
     const releaseBtn = document.getElementById(`releaseBtn-${pokemon.id}`);
 
-    // Save personal note to localStorage
+    // Save note to localStorage
     saveBtn.addEventListener("click", () => {
       const noteInput = document.getElementById(`note-${pokemon.id}`);
       savePokemonNote(pokemon.id, noteInput.value);
       alert("Note saved for " + pokemon.name + "!");
     });
 
-    // Remove Pokémon from saved list and re-render UI
+    // Remove Pokémon from storage and re-render
     releaseBtn.addEventListener("click", () => {
       releasePokemon(pokemon.id);
       alert("You released " + pokemon.name + "!");
-      loadPokedex(); // Refresh the page content after removal
+      loadPokedex(); // refresh UI
     });
   }
 }
 
-// Initialise the Pokédex page when it loads
+// Initialize page
 loadPokedex();

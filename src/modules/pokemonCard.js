@@ -19,7 +19,9 @@ export function createPokemonObject(currentPokemon, typeColors) {
     id,
     idString,
     name,
-    sprite: currentPokemon.sprites.front_default,
+    sprite:
+  currentPokemon.sprites.other["official-artwork"].front_default ||
+  currentPokemon.sprites.front_default,
 
     // Store types and remove undefined values if only one type exists
     types: [type1, type2].filter(Boolean),

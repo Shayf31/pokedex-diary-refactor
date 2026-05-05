@@ -1,6 +1,6 @@
-# 🔧 Pokédex Refactor Project
+#  Pokédex Refactor Project
 
-## 📌 Overview
+##  Overview
 
 This project is a refactored version of a Pokédex application built with JavaScript and Vite.
 
@@ -8,7 +8,7 @@ The goal of this refactor was to improve code structure, readability, and mainta
 
 ---
 
-## 🎯 Refactor Goals
+##  Refactor Goals
 
 | ID    | Improvement                            | Description                                                         | Status |
 | ----- | -------------------------------------- | ------------------------------------------------------------------- | ------ |
@@ -26,7 +26,7 @@ The goal of this refactor was to improve code structure, readability, and mainta
 
 ---
 
-## 🧭 Main User Journey
+##  Main User Journey
 
 1. User opens **index.html**
 2. `home.js` runs

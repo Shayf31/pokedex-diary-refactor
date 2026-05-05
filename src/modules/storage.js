@@ -1,3 +1,12 @@
+// HANDLES SAVED POKEMON:
+// ===========================
+//get caught Pokémon
+//save caught Pokémon
+//catch Pokémon
+//release Pokémon
+//save notes
+
+
 // Retrieves the list of caught Pokémon from localStorage
 // If nothing is stored yet, return an empty array
 export function getCaughtPokemon() {
@@ -32,11 +41,11 @@ export function catchPokemon(pokemonObject) {
   alert("You successfully caught " + pokemonObject.name + "!");
 }
 
-// Removes a Pokémon from the caught list (used in the Pokédex page)
+// Removes a Pokemon from the caught list (used in the Pokédex page)
 export function releasePokemon(id) {
   const caughtList = getCaughtPokemon();
 
-  // Filter out the Pokémon with the matching ID
+  // Filter out the Pokemon with the matching ID
   const updatedList = caughtList.filter(
     (pokemon) => pokemon.id !== id
   );
@@ -44,11 +53,11 @@ export function releasePokemon(id) {
   saveCaughtPokemon(updatedList);
 }
 
-// Saves or updates a personal note for a specific Pokémon
+// Saves or updates a personal note for a specific Pokemon
 export function savePokemonNote(id, noteValue) {
   const caughtList = getCaughtPokemon();
 
-  // Find the matching Pokémon and update its note property
+  // Find the matching Pokemon and update its note property
   caughtList.forEach((pokemon) => {
     if (pokemon.id === id) {
       pokemon.note = noteValue;

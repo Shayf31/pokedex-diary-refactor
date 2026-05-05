@@ -1,7 +1,13 @@
-// Transforms raw Pokémon API data into a simplified object
+// FILE HANDLES POKEMON DISPLAY DATA:
+// ==========================================
+// turns raw API data into a clean object
+// creates reusable Pokemon card HTML 
+
+
+// Transforms raw Pokemon API data into a simplified object
 // This makes it easier to work with when rendering UI or saving data
 export function createPokemonObject(currentPokemon, typeColors) {
-  // Format Pokémon name (capitalize first letter)
+  // Format Pokemon name (capitalize first letter)
   const name =
     currentPokemon.name.charAt(0).toUpperCase() +
     currentPokemon.name.slice(1);
@@ -10,11 +16,11 @@ export function createPokemonObject(currentPokemon, typeColors) {
   const id = currentPokemon.id;
   const idString = "#" + String(id).padStart(3, "0");
 
-  // Extract Pokémon types (some Pokémon only have one type)
+  // Extract Pokemon types (some Pokemon only have one type)
   const type1 = currentPokemon.types[0].type.name;
   const type2 = currentPokemon.types[1]?.type.name;
 
-  // Return a clean, reusable Pokémon object
+  // Return a clean, reusable Pokemon object
   return {
     id,
     idString,
@@ -42,7 +48,7 @@ export function createPokemonObject(currentPokemon, typeColors) {
   };
 }
 
-// Generates the HTML markup for a Pokémon card
+// Generates the HTML markup for a Pokemon card
 // showCatchButton controls whether the "Catch" button is displayed
 export function createPokemonCard(pokemon, showCatchButton = false) {
   // Conditionally render second type badge if it exists

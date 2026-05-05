@@ -1,3 +1,11 @@
+//CONTROLS THE SAVED POKEDEX PAGE:
+// ========================================
+// gets caught Pokemon from storage
+// renders saved cards
+// allows notes
+// allows releasing Pokemon
+
+
 import "./index.css";
 import {
   getCaughtPokemon,
@@ -5,12 +13,12 @@ import {
   savePokemonNote,
 } from "./modules/storage.js";
 
-// MAIN CONTAINER for all saved Pokémon cards
+// MAIN CONTAINER for all saved Pokemon cards
 const favoritesContainer = document.getElementById("favoritesContainer");
 
 /**
- * Creates a full Pokémon card INCLUDING notes + actions
- * Used only on the Pokédex page (saved Pokémon view)
+ * Creates a full Pokemon card INCLUDING notes + actions
+ * Used only on the Pokedex page (saved Pokemon view)
  */
 function createSavedPokemonCard(pokemon) {
   // Only render second type if it exists
@@ -19,7 +27,7 @@ function createSavedPokemonCard(pokemon) {
     : "";
 
   // Return full card HTML including:
-  // - Pokémon info
+  // - Pokemon info
   // - Personal note textarea
   // - Save + Release buttons
   return `
@@ -91,13 +99,13 @@ function createSavedPokemonCard(pokemon) {
 }
 
 /**
- * Loads all caught Pokémon from localStorage
+ * Loads all caught Pokemon from localStorage
  * and renders them to the page
  */
 function loadPokedex() {
   const favoritePokemon = getCaughtPokemon();
 
-  // Handle empty state (no Pokémon caught yet)
+  // Handle empty state (no Pokemon caught yet)
   if (favoritePokemon.length === 0) {
     favoritesContainer.innerHTML = `
       <div class="col-span-full bg-white rounded-3xl shadow-lg p-10 text-center">
@@ -112,7 +120,7 @@ function loadPokedex() {
 
   let html = "";
 
-  // Build all Pokémon cards
+  // Build all Pokemon cards
   for (const pokemon of favoritePokemon) {
     html += createSavedPokemonCard(pokemon);
   }

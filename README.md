@@ -1,16 +1,48 @@
-# React + Vite
+# 🔧 Pokédex Refactor Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 📌 Overview
 
-Currently, two official plugins are available:
+This project is a refactored version of a Pokédex application built with JavaScript and Vite.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+The goal of this refactor was to improve code structure, readability, and maintainability while preserving the original functionality.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🎯 Refactor Goals
 
-## Expanding the ESLint configuration
+| ID    | Improvement                            | Description                                                         | Status |
+| ----- | -------------------------------------- | ------------------------------------------------------------------- | ------ |
+| FR001 | Use Vite as Bundler                    | Install and configure Vite for development and production builds    | ✅      |
+| FR002 | Install Tailwind via npm               | Integrated TailwindCSS into the project build pipeline              | ✅      |
+| FR003 | ES-Module Codebase                     | Converted JavaScript to ES modules (import/export)                  | ✅      |
+| FR004 | Multiple HTML Entries                  | Configured Vite for multi-page setup (index.html & pokedex.html)    | ✅      |
+| FR005 | Clear File Structure                   | Each HTML file loads its own entry script (home.js, pokedexPage.js) | ✅      |
+| FR006 | Commented & Documented Code            | Added comments explaining logic and module responsibilities         | ✅      |
+| FR007 | Bug Fixes                              | Fixed issues from the original implementation                       | ✅      |
+| FR008 | Edge-Case Handling                     | Handled empty results and edge cases gracefully                     | ✅      |
+| FR009 | Robust Error Handling                  | Added user-visible feedback for API/network errors                  | ✅      |
+| FR010 | Refactor for Readability & Scalability | Broke large functions into smaller, reusable modules                | ✅      |
+| FR011 | Static-Site Deployment                 | Built project using Vite and prepared for deployment                | ✅      |
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🧭 Main User Journey
+
+1. User opens **index.html**
+2. `home.js` runs
+3. `api.js` fetches Pokémon data
+4. `pokemonCard.js` builds and displays Pokémon cards
+5. User clicks **Catch**
+6. `storage.js` saves Pokémon to `localStorage`
+7. User opens **pokedex.html**
+8. `pokedexPage.js` loads saved Pokémon
+9. User can:
+
+   * add personal notes
+   * release Pokémon
+
+---
+
+## 🌐 Live Demo
+
+https://pokedex-diary-refactor.onrender.com

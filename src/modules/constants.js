@@ -25,3 +25,22 @@ export const typeColors = {
   fairy: "bg-pink-300",
 };
 
+// 
+// Main user journey:
+// User opens index.html
+// 1. home.js runs
+// 2. api.js fetches Pokémon
+// 3. pokemonCard.js formats/builds cards
+// 4. user clicks Catch
+// 4. storage.js saves Pokémon to localStorage
+// 5. user opens pokedex.html
+// 6. pokedexPage.js loads saved Pokémon
+// 7. user can save notes or release Pokémon
+
+
+
+
+
+
+
+// 

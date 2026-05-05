@@ -43,6 +43,6 @@ The goal of this refactor was to improve code structure, readability, and mainta
 
 ---
 
-## 🌐 Live Demo
+## Live Demo
 
 https://pokedex-diary-refactor.onrender.com

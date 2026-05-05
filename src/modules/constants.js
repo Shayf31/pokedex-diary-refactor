@@ -24,3 +24,4 @@ export const typeColors = {
   steel: "bg-slate-400",
   fairy: "bg-pink-300",
 };
+

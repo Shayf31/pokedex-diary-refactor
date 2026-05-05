@@ -1,28 +1,36 @@
+// CONTROLS THE HOMEPAGE:
+// ============================================================
+// imports API functions
+// fetches Pokemon
+// uses pokemonCard.js to build cards
+// uses storage.js to catch Pokemon
+// handles search modal
+
 // Import Tailwind styles for layout and design
 import "./index.css";
 
-// Import API functions used to fetch Pokémon data from PokéAPI
+// Import API functions used to fetch Pokemon data from PokéAPI
 import {
   fetchPokemonList,
   fetchPokemonDetails,
   fetchPokemonByNameOrId,
 } from "./modules/api.js";
 
-// Import shared constants and helper functions for building Pokémon cards
+// Import shared constants and helper functions for building Pokemon cards
 import { typeColors } from "./modules/constants.js";
 import {
   createPokemonObject,
   createPokemonCard,
 } from "./modules/pokemonCard.js";
 
-// Import localStorage helper to handle catching Pokémon
+// Import localStorage helper to handle catching Pokemon
 import { catchPokemon } from "./modules/storage.js";
 
 // ==========================
 // DOM ELEMENTS
 // ==========================
 
-// Main container where all Pokémon cards will be displayed
+// Main container where all Pokemon cards will be displayed
 const pokemonContainer = document.getElementById("pokemonContainer");
 
 // Search input and modal/dialog elements
@@ -36,18 +44,18 @@ const closeDialogBtn = document.getElementById("closeDialogBtn");
 // INITIAL LOAD (HOMEPAGE)
 // ==========================
 
-// Loads and displays the main Pokémon grid
+// Loads and displays the main Pokemon grid
 async function init() {
   try {
-    // Fetch list of Pokémon (name + URL)
+    // Fetch list of Pokemon (name + URL)
     const list = await fetchPokemonList();
 
-    // Store processed Pokémon objects for later use (e.g., event listeners)
+    // Store processed Pokemon objects for later use (e.g., event listeners)
     const pokemonObjects = [];
 
     let html = "";
 
-    // Loop through each Pokémon and fetch full details
+    // Loop through each Pokemon and fetch full details
     for (const pokemon of list) {
       const data = await fetchPokemonDetails(pokemon.url);
 
@@ -57,11 +65,11 @@ async function init() {
       // Save for later (used to attach event listeners)
       pokemonObjects.push(pokemonObject);
 
-      // Generate HTML card for each Pokémon
+      // Generate HTML card for each Pokemon
       html += createPokemonCard(pokemonObject, true);
     }
 
-    // Render all cards to the page in one go (better performance)
+    // Render all cards to the page in one go
     pokemonContainer.innerHTML = html;
 
     // Attach "Catch" button event listeners AFTER rendering
@@ -88,7 +96,7 @@ async function init() {
 // SEARCH FUNCTIONALITY
 // ==========================
 
-// Handles searching Pokémon by name or ID
+// Handles searching Pokemon by name or ID
 async function searchPokemon() {
   // Clean user input (remove spaces + make lowercase)
   const searchValue = searchInput.value.trim().toLowerCase();
@@ -107,19 +115,19 @@ async function searchPokemon() {
   }
 
   try {
-    // Fetch single Pokémon from API
+    // Fetch single Pokemon from API
     const data = await fetchPokemonByNameOrId(searchValue);
 
     // Convert API data into reusable object
     const pokemonObject = createPokemonObject(data, typeColors);
 
-    // Render Pokémon inside the modal dialog
+    // Render Pokemon inside the modal dialog
     dialogContent.innerHTML = createPokemonCard(pokemonObject, false);
 
     // Open modal
     searchDialog.showModal();
   } catch (error) {
-    // Handle case where Pokémon is not found or API fails
+    // Handle case where Pokemon is not found or API fails
     dialogContent.innerHTML = `
       <div class="p-6 text-center">
         <h3 class="text-2xl font-extrabold text-red-500 mb-3">

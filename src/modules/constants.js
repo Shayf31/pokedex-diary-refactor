@@ -1,3 +1,7 @@
+// STORES SHARED VALUES USED AROUND THE APP
+// =========================================
+//API URL + TYPE 2 COLOURS
+
 export const fetchPokemonPath = "https://pokeapi.co/api/v2/pokemon?limit=151";
 
 export const typeColors = {
